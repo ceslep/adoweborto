@@ -1,0 +1,32 @@
+{
+  "name": "moyaortodoncia",
+  "version": "1.0.0",
+  "description": "Software de Historias Clinicas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": ""
+  },
+  "author": "ceslep@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "filereader": "^0.10.3",
+    "form-data": "^3.0.0",
+    "imagemin": "^7.0.1",
+    "imagemin-jpegtran": "^7.0.0",
+    "jquery": "^3.5.1",
+    "jquery-param": "^1.0.5",
+    "node-fetch": "^2.6.0",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "morgan": "^1.10.0",
+    "reload": "^3.0.4"
+  }
+}
