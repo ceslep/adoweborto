@@ -107,17 +107,18 @@ $(document).ready(_=>{
 	});
 
 	const filtertel=(tel)=>{
+		console.log(tel);
 		try{
 		let numbers=["0","1","2","3","4","5","7","8","9"];
 		
 		let fts="";
 		let ftel=tel.split("").map(s =>{
-			 if (s in numbers) fts+=s;
+			 if (numbers.includes(s)) fts+=s;
 	 });
 	 return fts;
 	}catch(error){
 		console.log(error);
-		return "";
+		return tel;
 
 	}
 	}
@@ -883,7 +884,7 @@ $(document).ready(_=>{
 		$("#SigImg").hide();
 		$("#tipo").val(data.especialidad);
 		$("#gdb").val(data.database);
-		$("#whatsapp").attr("href",`https://api.whatsapp.com/send?phone=${filtertel(fila.data("telefono"))}?text=Hola%20te%20escribo%20desde%20la%20clinica%20Moya%20Ortodoncia`);
+		$("#whatsapp").attr("href",`https://api.whatsapp.com/send?phone=${filtertel(fila.data("telefono"))}?text=Hola%20te%20escribo%20desde%20la%20clinica%20de%20Ortodoncia%20y%20odontología%20especializada`);
 		$("#telefono").attr("href",`tel://${filtertel(fila.data("telefono"))}`);
 		$("#sms").attr("href",`sms:+57${filtertel(fila.data("telefono"))}`);
 		let response=await fetch("/foto",{
