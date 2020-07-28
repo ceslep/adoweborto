@@ -1645,7 +1645,7 @@
           <div class="modal-header">
             <h5 class="modal-title">Datos Pacientes</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true" class="text-dark">&times;</span>
             </button>
           </div>
           <div class="modal-body">
@@ -1653,18 +1653,18 @@
             <input type="hidden" name="database" class="database">
             <div class="row">
               <div class="col-6">
-                <label for="telefono_residencia1">Telefono 1</label>
-                <input type="tel" name="telefono_residencia1" id="telefono_residencia1" class="form-control">
+                <label for="telefono_residencia1"><a href="#!" id="atel1"><i class="fas fa-mobile-alt fa-lg" style="color:darkgreen;" aria-hidden="true"></i>Telefono 1</a></label>
+                <input type="tel" name="telefono_residencia1" id="telefono_residencia1" class="form-control atel">
               </div>
               <div class="col-6">
-                <label for="telefono_residencia2">Telefono 2</label>
-                <input type="tel" name="telefono_residencia2" id="telefono_residencia2" class="form-control">
+                <label for="telefono_residencia2"><a href="#!" id="atel2"><i class="fas fa-mobile-alt fa-lg" style="color:darkgreen;" aria-hidden="true"></i>Telefono 2</a></label>
+                <input type="tel" name="telefono_residencia2" id="telefono_residencia2" class="form-control atel">
               </div>
             </div>
             <div class="row">
               <div class="col-6">
-                <label for="telefono_movil">Telefono Celular</label>
-                <input type="tel" name="telefono_movil" id="telefono_movil" class="form-control">
+                <label for="telefono_movil"><a href="#!" id="atel3"><i class="fas fa-mobile-alt fa-lg" style="color:darkgreen;" aria-hidden="true"></i>Telefono Celular</a></label>
+                <input type="tel" name="telefono_movil" id="telefono_movil" class="form-control atel">
               </div>
               <div class="col-6 col-sm-12">
                 <label for="email1">Email</label>
@@ -1672,15 +1672,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-4 col-sm-12">
+              <div class="col-12 col-sm-12 col-lg-4">
                 <label for="direccion_de_residencia">Dirección</label>
                 <input type="text" name="direccion_residencia" id="direccion_residencia" class="form-control">
               </div>
-              <div class="col-4 col-sm-12">
+              <div class="col-12 col-sm-12 col-lg-4">
                 <label for="ciudad">Barrio</label>
                 <input type="text" name="barrio" id="barrio" class="form-control">
               </div>
-              <div class="col-4 col-sm-12">
+              <div class="col-12 col-sm-12 col-lg-4">
                 <label for="ciudad">Ciudad</label>
                 <input type="text" name="ciudad_residencia" id="ciudad_residencia" class="form-control">
               </div>
