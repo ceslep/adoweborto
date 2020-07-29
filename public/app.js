@@ -95,6 +95,8 @@ $(document).ready(_ => {
 
 
 
+
+
 	$(window).resize(e => {
 
 		let ancho = parseInt($(window).width() * 0.95);
@@ -108,13 +110,14 @@ $(document).ready(_ => {
 	const filtertel = (tel) => {
 		console.log(tel);
 		try {
-			let numbers = ["0", "1", "2", "3", "4", "5","6", "7", "8", "9"];
+			let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 			let fts = "";
 			tel.split("").forEach(s => {
 				if (numbers.includes(s)) fts += s;
-				
+
 			});
+			if (fts.length<=7) fts='036'+fts;
 			return fts;
 		} catch (error) {
 			console.log(error);
@@ -1157,7 +1160,7 @@ $(document).ready(_ => {
 			html2 += `<option value="${profesional.nombres}">${profesional.nombres}</option>`;
 		});
 		$("#profesional").empty().html(html2);
-		datos = await fetch(url + "pacientes", {
+		let response = await fetch(url + "pacientes", {
 			method: "POST",
 			body: JSON.stringify({ "database": data.database }),
 			headers: {
@@ -1167,7 +1170,65 @@ $(document).ready(_ => {
 			mode: 'cors'
 
 		});
-		datos = await datos.json();
+
+		const reader = response.body.getReader();
+
+		// Step 2: get total length
+		const contentLength = +response.headers.get('Content-Length');
+
+		// Step 3: read the data
+		let receivedLength = 0; // received that many bytes at the moment
+		let chunks = []; // array of received binary chunks (comprises the body)
+		while (true) {
+			const { done, value } = await reader.read();
+
+			if (done) {
+				break;
+			}
+
+			chunks.push(value);
+			receivedLength += value.length;
+			$(".plod").text(`Recibiendo Datos ${parseInt(receivedLength/contentLength*100)}% de ${Math.round(contentLength/(1000))} kB`);
+			console.log(`Received ${parseInt(receivedLength/contentLength*100)}% of ${contentLength}`);
+		}
+		$(".plod").html(`Completado... Construyendo...</br>Espere por favor...`);
+		// Step 4: concatenate chunks into single Uint8Array
+		let chunksAll = new Uint8Array(receivedLength); // (4.1)
+		let position = 0;
+		for (let chunk of chunks) {
+			chunksAll.set(chunk, position); // (4.2)
+			position += chunk.length;
+		}
+
+		// Step 5: decode into a string
+		let result = new TextDecoder("utf-8").decode(chunksAll);
+
+		// We're done!
+		datos = JSON.parse(result);
+		console.log(datos);
+		/*datos = await fetch(url + "pacientes", {
+			method: "POST",
+			body: JSON.stringify({ "database": data.database }),
+			headers: {
+				'Content-Type': 'application/json',
+				"Access-Control-Allow-Origin": "*",
+			},
+			mode: 'cors'
+
+		});
+		const reader = datos.body.getReader();
+		while (true) {
+			// done is true for the last chunk
+			// value is Uint8Array of the chunk bytes
+			const { done, value } = await reader.read();
+
+			if (done) {
+				break;
+			}
+
+			console.log(`Received ${value.length} bytes`)
+		}
+		datos = await datos.json();*/
 
 
 		pacientes = datos[0].datos;
@@ -1845,13 +1906,13 @@ $(document).ready(_ => {
 			html += `
 				<tr>
 					<a href="#!">
-					<td>
-						${paciente.historia}
+					<td class="align-middle mx-auto">
+						<a href="#!" class="btn btn-outline-primary btn-sm bpac text-white w-100">${paciente.historia}</a>
 					</td>
-					<td>
+					<td class="align-middle">
 						${paciente.identificacion}
 					</td>
-					<td>
+					<td class="align-middle">
 						${paciente.nombres}
 					</td>
 					</a>
@@ -2080,14 +2141,22 @@ $(document).ready(_ => {
 		let datosPac = await response.json();
 		data.datosPac = { ...datosPac };
 		Object.keys(datosPac[0]).forEach(key => $(`#${key}`).val(datosPac[0][key]));
-		$("[id^=atel]").each((i,e) => {
-			let tel=$(e).parent().next().val();
-			$(e).attr("href",`tel://${filtertel(tel)}`);
-			
+		$("[id^=atel]").each((i, e) => {
+			let tel = $(e).parent().next().val();
+			$(e).attr("href", `tel://${filtertel(tel)}`);
+
 		});
 		$("#modaldataPac").modal().modal("show");
 	});
 
-	
+	$("#bpac").click(e=>{
+		e.preventDefault();
+		$("#modalFindPac").modal().modal("show");
+	});
+
+	$(document).on("click",".bpac",e=>{
+		e.preventDefault();
+		console.log($())
+	});
 
 });
