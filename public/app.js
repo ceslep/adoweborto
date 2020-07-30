@@ -1154,7 +1154,7 @@ $(document).ready(_ => {
 			}
 		});
 		let profesionales = await datos.json();
-		console.log(profesionales);
+		
 		html2 = "<option value=''></option>";
 		profesionales.forEach(profesional => {
 			html2 += `<option value="${profesional.nombres}">${profesional.nombres}</option>`;
@@ -1189,9 +1189,11 @@ $(document).ready(_ => {
 			chunks.push(value);
 			receivedLength += value.length;
 			$(".plod").text(`Recibiendo Datos ${parseInt(receivedLength/contentLength*100)}% de ${Math.round(contentLength/(1000))} kB`);
+			$(".loadini").text($(".plod").text());
 			console.log(`Received ${parseInt(receivedLength/contentLength*100)}% of ${contentLength}`);
 		}
 		$(".plod").html(`Completado... Construyendo...</br>Espere por favor...`);
+		$(".loadini").html(`Completado... Construyendo...</br>Espere por favor...`);
 		// Step 4: concatenate chunks into single Uint8Array
 		let chunksAll = new Uint8Array(receivedLength); // (4.1)
 		let position = 0;
