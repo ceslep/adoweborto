@@ -14,6 +14,7 @@ var pacientes = [];
 var procedimientos = [];
 var horas;
 var spin;
+var progress;
 var queagenda = "";
 var galleryTop;
 var galleryThumbs;
@@ -59,8 +60,88 @@ var arrayCedula = [];
 var arrayCedulaStr = [];
 var timeout = false;
 var Keys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 85, 87, 88, 89, 90, 45, 189];
+
+
 $(document).ready(_ => {
 
+
+	alertify.defaults = {
+		// dialogs defaults
+		autoReset:true,
+		basic:false,
+		closable:true,
+		closableByDimmer:true,
+		invokeOnCloseOff:false,
+		frameless:false,
+		defaultFocusOff:false,
+		maintainFocus:true, // <== global default not per instance, applies to all dialogs
+		maximizable:true,
+		modal:true,
+		movable:true,
+		moveBounded:false,
+		overflow:true,
+		padding: true,
+		pinnable:true,
+		pinned:true,
+		preventBodyShift:false, // <== global default not per instance, applies to all dialogs
+		resizable:true,
+		startMaximized:false,
+		transition:'pulse',
+		transitionOff:false,
+		tabbable:'button:not(:disabled):not(.ajs-reset),[href]:not(:disabled):not(.ajs-reset),input:not(:disabled):not(.ajs-reset),select:not(:disabled):not(.ajs-reset),textarea:not(:disabled):not(.ajs-reset),[tabindex]:not([tabindex^="-"]):not(:disabled):not(.ajs-reset)',  // <== global default not per instance, applies to all dialogs
+	
+		// notifier defaults
+		notifier:{
+		// auto-dismiss wait time (in seconds)  
+			delay:5,
+		// default position
+			position:'bottom-right',
+		// adds a close button to notifier messages
+			closeButton: false,
+		// provides the ability to rename notifier classes
+			classes : {
+				base: 'alertify-notifier',
+				prefix:'ajs-',
+				message: 'ajs-message',
+				top: 'ajs-top',
+				right: 'ajs-right',
+				bottom: 'ajs-bottom',
+				left: 'ajs-left',
+				center: 'ajs-center',
+				visible: 'ajs-visible',
+				hidden: 'ajs-hidden',
+				close: 'ajs-close'
+			}
+		},
+	
+		// language resources 
+		glossary:{
+			// dialogs default title
+			title:'AdoWeb',
+			// ok button text
+			ok: 'Aceptar',
+			// cancel button text
+			cancel: 'Cancelar'            
+		},
+	
+		// theme settings
+		theme:{
+			// class name attached to prompt dialog input textbox.
+			input:'ajs-input',
+			// class name attached to ok button
+			ok:'ajs-ok',
+			// class name attached to cancel button 
+			cancel:'ajs-cancel'
+		},
+		// global hooks
+		hooks:{
+			// invoked before initializing any dialog
+			preinit:function(instance){},
+			// invoked after initializing any dialog
+			postinit:function(instance){},
+		},
+	};
+	
 
 
 	var data = Bind({
@@ -119,11 +200,11 @@ $(document).ready(_ => {
 
 			});
 			console.log(fts);
-			if (fts.length<=8) fts='036'+fts;
+			if (fts.length <= 8) fts = '036' + fts;
 			return fts;
 		} catch (error) {
 			console.log(error);
-			return '036'+tel;
+			return '036' + tel;
 
 		}
 	}
@@ -738,6 +819,7 @@ $(document).ready(_ => {
 					   data-citasind="${datoAgenda.citasind}"
 					   data-telefono="${datoAgenda.telefono}"
 					   data-spin="#spin${datoAgenda.identificacion}"
+					   data-progress="#progress${datoAgenda.identificacion}"
 					   data-procedimiento=${datoAgenda.codproc}
 					   data-queagenda=${datoAgenda.queagenda}
 					   >
@@ -754,6 +836,9 @@ $(document).ready(_ => {
 					  
 					  <div id="spin${datoAgenda.identificacion}"class="spinner-grow text-success float-right d-none" role="status"  style="width: 3rem; height: 3rem;">
 					  <span class="sr-only"></span>
+					</div>
+					<div class="progress d-none w-100 align-middle" style="height:10px;" id="progress${datoAgenda.identificacion}">
+  						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
 					</div>
 					  </div>
 				</div>
@@ -820,14 +905,15 @@ $(document).ready(_ => {
 		else
 			$("#fotoModalCenterTitle").text($("#pacientes option:selected").data("nombres"));
 
- 
- 		$("#fotoModalCenter").removeClass("")
+
+		$("#fotoModalCenter").removeClass("")
 		$("#fotoModalCenter").modal().modal("show");
 	})
 
 	$("#asignaCitaModal").on('hidden.bs.modal', e => {
 
 		$(spin).addClass("d-none");
+		$(progress).addClass("d-none");
 
 	})
 
@@ -845,8 +931,9 @@ $(document).ready(_ => {
 			return i == 1;
 		});
 		spin = fila.data("spin");
+		progress = fila.data("progress");
 		$(spin).removeClass("d-none")
-
+		$(progress).removeClass("d-none")
 
 		if (nombres.text().trim() != "") {
 			$('.nav-tabs a:first').tab('show');
@@ -911,6 +998,7 @@ $(document).ready(_ => {
 			}
 			$("#confirma2").modal("show");
 			$(spin).addClass("d-none")
+			$(progress).addClass("d-none")
 		}
 		else {
 			$('#fotop3').attr("src", "");
@@ -1158,7 +1246,7 @@ $(document).ready(_ => {
 			}
 		});
 		let profesionales = await datos.json();
-		
+
 		html2 = "<option value=''></option>";
 		profesionales.forEach(profesional => {
 			html2 += `<option value="${profesional.nombres}">${profesional.nombres}</option>`;
@@ -1192,9 +1280,11 @@ $(document).ready(_ => {
 
 			chunks.push(value);
 			receivedLength += value.length;
-			$(".plod").text(`Recibiendo Datos ${parseInt(receivedLength/contentLength*100)}% de ${Math.round(contentLength/(1000))} kB`);
+			let porcinicio = parseInt(receivedLength / contentLength * 100);
+			$(".porcinicio").css("width",`${porcinicio}%`)
+			$(".plod").text(`Recibiendo Datos ${porcinicio}% de ${Math.round(contentLength / (1000))} kB`);
 			$(".loadini").text($(".plod").text());
-			console.log(`Received ${parseInt(receivedLength/contentLength*100)}% of ${contentLength}`);
+			console.log(`Received ${parseInt(receivedLength / contentLength * 100)}% of ${contentLength}`);
 		}
 		$(".plod").html(`Completado... Construyendo...</br>Espere por favor...`);
 		$(".loadini").html(`Completado... Construyendo...</br>Espere por favor...`);
@@ -1543,6 +1633,7 @@ $(document).ready(_ => {
 				$("#asignaCitaModal").modal("hide");
 				agendaCitas(true);
 				$(spin).addClass("d-none");
+				$(progress).addClass("d-none");
 			}
 			else {
 				agendaCitas();
@@ -1551,21 +1642,21 @@ $(document).ready(_ => {
 		}
 	});
 
-/*
-	$.fn.datepicker.dates['es'] = {
-		days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-		daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-		daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-		months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-		monthsShort: ["Ene", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-		today: "Hoy",
-		clear: "Limpiar",
-		format: "yyyy-mm-dd",
-		titleFormat: "MM yyyy", /* Leverages same syntax as 'format' 
-		weekStart: 0,
-		autoclose: true
-	};
-*/
+	/*
+		$.fn.datepicker.dates['es'] = {
+			days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+			daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+			months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			monthsShort: ["Ene", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			today: "Hoy",
+			clear: "Limpiar",
+			format: "yyyy-mm-dd",
+			titleFormat: "MM yyyy", /* Leverages same syntax as 'format' 
+			weekStart: 0,
+			autoclose: true
+		};
+	*/
 	//$("input[id^='fecha']").datepicker({ language: 'es', autoclose: true, disableTouchKeyboard: true, todayBtn: true, todayHighlight: true });
 
 
@@ -2156,14 +2247,37 @@ $(document).ready(_ => {
 		$("#modaldataPac").modal().modal("show");
 	});
 
-	$("#bpac").click(e=>{
+	$("#bpac").click(e => {
 		e.preventDefault();
 		$("#modalFindPac").modal().modal("show");
 	});
 
-	$(document).on("click",".bpac",e=>{
+	$(document).on("click", ".bpac", e => {
 		e.preventDefault();
 		console.log($())
+	});
+
+	$("#btnconfirma2").click(e => {
+
+		e.preventDefault();
+		
+		alertify.confirm("Are you sure?", function (e) {
+			if (e) {
+			  alertify.success("Yes");
+			} else {
+			  alertify.success("No");
+			}
+		  });
+		return;
+		let alertIfy=alertify.prompt("Que dijo la persona que confirma.", "...",
+			function (evt, value) {
+				console.log(evt);
+				alertify.success('Ok: ' + value);
+			},
+			function () {
+				alertify.error('Cancel');
+			});
+			console.log(alertIfy);
 	});
 
 });

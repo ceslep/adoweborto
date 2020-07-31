@@ -59,6 +59,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js"></script>
   <script src="./js/psw.js"></script>
   <script src="./js/offline.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
   <style>
     body {
       background: #2c3e50;
@@ -377,6 +387,9 @@
       <div class="spinner-border text-white" style="width: 8rem; height: 8rem;" role="status">
         <span class="sr-only">Loading...</span>
       </div>
+      <div class="progress mx-auto w-100" style="height:10px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated porcinicio" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+      </div>
       <div class="row mx-auto">
         <strong class="mx-auto plod" style="color:aquamarine;"></strong>
     </div>
@@ -422,12 +435,15 @@
 
           <div class="mx-auto" style="width: 85px;">
 
-            <button type="submit" class="btn btn-success btn-block" id="btnLogin" value="iniciar"><i
+            <button type="submit" class="btn btn-success btn-block w-100" id="btnLogin" value="iniciar"><i
                 class="fas fa-cloud">&nbsp;</i>Iniciar Sesión</button>
           </div>
           <div class="d-flex align-items-center" id="ldnInicial">
-            <strong class="d-none loadini">Conectando...</strong>
+            <small class="d-none loadini">Conectando...</small>
             <div class="spinner-border text-primary ml-auto d-none" role="status" aria-hidden="true" id="spinnerload">
+            </div>
+            <div class="progress mx-auto w-100" style="height:10px;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated porcinicio" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
             </div>
           </div>
 
@@ -561,19 +577,19 @@
                       </span>
                     </div>
                     <div class="col-2">
-                      <a id="telefono" target="_blank" href="#" class="btn btn-outline-primary" style="width:40px;"><i
+                      <a id="telefono" target="_blank" href="#" class="btn" style="width:40px;"><i
                           class="fas fa-mobile-alt fa-lg fa-align-center" style="color:aquamarine;"></i></a>
                     </div>
                     <div class="col-2">
-                      <a id="whatsapp" target="_blank" href="#" class="btn btn-outline-primary" style="width:40px;"><i
+                      <a id="whatsapp" target="_blank" href="#" class="btn" style="width:40px;"><i
                           class="fab fa-whatsapp fa-lg fa-align-center" style="color:lightgreen;"></i></a>
                     </div>
                     <div class="col-2">
-                      <a id="sms" target="_blank" href="#" class="btn btn-outline-primary" style="width:40px;"><i
+                      <a id="sms" target="_blank" href="#" class="btn" style="width:40px;"><i
                           class="fas fa-sms fa-lg fa-align-center" style="color:gold;"></i></a>
                     </div>
                     <div class="col-2">
-                      <a id="dataPac" href="#!" class="btn btn-outline-primary" style="width:40px;"><i
+                      <a id="dataPac" href="#!" class="btn" style="width:40px;"><i
                           class="fa fa-user-circle fa-lg fa-align-center" style="color:burlywood;"></i></a>
                     </div>
                   </div>
@@ -1702,11 +1718,22 @@
                 <input type="text" name="ciudad_residencia" id="ciudad_residencia" class="form-control">
               </div>
             </div>
+            <div class="row">
+              <div class="col-12 col-sm-12 col-lg-6">
+                <label for="ciudad">Tipo de Documento</label>
+                <input readonly type="text" name="tdei" id="tdeip" class="form-control">
+              </div>
+              <div class="col-12 col-sm-12 col-lg-6">
+                <label for="ciudad">Identificación</label>
+                <input readonly type="text" name="identificacion" id="identificacionp" class="form-control">
+              </div>
+
+            </div>
 
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Aceptar</button>
+            <button type="button" class="btn btn-primary" id="btnconfirma2">Aceptar</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
