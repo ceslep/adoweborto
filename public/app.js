@@ -109,6 +109,7 @@ $(document).ready(_ => {
 
 	const filtertel = (tel) => {
 		console.log(tel);
+		console.log(tel);
 		try {
 			let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -117,11 +118,12 @@ $(document).ready(_ => {
 				if (numbers.includes(s)) fts += s;
 
 			});
-			if (fts.length<=7) fts='036'+fts;
+			console.log(fts);
+			if (fts.length<=8) fts='036'+fts;
 			return fts;
 		} catch (error) {
 			console.log(error);
-			return tel;
+			return '036'+tel;
 
 		}
 	}
@@ -811,13 +813,15 @@ $(document).ready(_ => {
 	$(".cimage > img").click(e => {
 		e.preventDefault();
 		let img = $(e.currentTarget);
+
 		$("#fotop2").attr("src", img.attr("src"));
 		if (img.parent().siblings(".modal-title").text().trim().indexOf("Cita") == -1)
 			$("#fotoModalCenterTitle").text(img.parent().siblings(".modal-title").text().trim());
 		else
 			$("#fotoModalCenterTitle").text($("#pacientes option:selected").data("nombres"));
 
-
+ 
+ 		$("#fotoModalCenter").removeClass("")
 		$("#fotoModalCenter").modal().modal("show");
 	})
 
@@ -1547,7 +1551,7 @@ $(document).ready(_ => {
 		}
 	});
 
-
+/*
 	$.fn.datepicker.dates['es'] = {
 		days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
 		daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
@@ -1557,12 +1561,12 @@ $(document).ready(_ => {
 		today: "Hoy",
 		clear: "Limpiar",
 		format: "yyyy-mm-dd",
-		titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+		titleFormat: "MM yyyy", /* Leverages same syntax as 'format' 
 		weekStart: 0,
 		autoclose: true
 	};
-
-	$("input[id^='fecha']").datepicker({ language: 'es', autoclose: true, disableTouchKeyboard: true, todayBtn: true, todayHighlight: true });
+*/
+	//$("input[id^='fecha']").datepicker({ language: 'es', autoclose: true, disableTouchKeyboard: true, todayBtn: true, todayHighlight: true });
 
 
 	$(document).on("click", ".cestc", async e => {
@@ -1909,7 +1913,7 @@ $(document).ready(_ => {
 				<tr>
 					<a href="#!">
 					<td class="align-middle mx-auto">
-						<a href="#!" class="btn btn-outline-primary btn-sm bpac text-white w-100">${paciente.historia}</a>
+						<a href="#!" class="btn btn-outline-primary btn-sm bpac text-success w-100">${paciente.historia}</a>
 					</td>
 					<td class="align-middle">
 						${paciente.identificacion}
@@ -2148,6 +2152,7 @@ $(document).ready(_ => {
 			$(e).attr("href", `tel://${filtertel(tel)}`);
 
 		});
+		$(".npact").text($("#confirma2LongTitle").text());
 		$("#modaldataPac").modal().modal("show");
 	});
 
