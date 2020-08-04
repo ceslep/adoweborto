@@ -64,7 +64,7 @@ var Keys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 
 
 $(document).ready(_ => {
 
-	
+/*	
 	alertify.defaults = {
 		// dialogs defaults
 		autoReset:true,
@@ -140,7 +140,7 @@ $(document).ready(_ => {
 			// invoked after initializing any dialog
 			postinit:function(instance){},
 		},
-	};
+	};*/
 	
 
 
@@ -2261,39 +2261,43 @@ $(document).ready(_ => {
 
 	
 	
-	const reset = function () {
-		$("toggleCSS").href = "../themes/alertify.default.css";
-		alertify.set({
-			labels : {
-				ok     : "OK",
-				cancel : "Cancel"
-			},
-			delay : 5000,
-			buttonReverse : false,
-			buttonFocus   : "ok"
-		});
-	};
-	
 
-	$("#btnconfirma2").click(e => {
+	$("#btnconfirma2").click(async e => {
 
-		console.clear();	
+		console.log('a');
 		e.preventDefault();
-		$("#loginForm").toggleClass("d-none");
-		reset();
-			alertify.prompt("This is a prompt dialog", function (e, str) {
-				if (e) {
-					alertify.success("You've clicked OK and typed: " + str);
-				} else {
-					alertify.error("You've clicked Cancel");
-				}
-			}, "Default Value");
-			return false;
-	
-			
+		$("#modaldataPac").modal("hide");
+		const { value: text } = await Swal.fire({
+			input: 'textarea',
+			inputPlaceholder: 'Que dijeron',
+			inputAttributes: {
+			  'aria-label': 'Escriba el mensaje de la confirmación'
+			},
+			showCancelButton: true
+		  });
+
+		  const Toast = Swal.mixin({
+			toast: true,
+			position: 'top-end',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			onOpen: (toast) => {
+			  toast.addEventListener('mouseenter', Swal.stopTimer)
+			  toast.addEventListener('mouseleave', Swal.resumeTimer)
+			}
+		  })
+		  
+		  if (text) {
+			Toast.fire({
+				icon: 'success',
+				title: 'Confirmado Satisfactoriamente'
+			  })
+		  }
+
 	});
 
-	
+
 	
 	const textAlertify = _=>{
 
