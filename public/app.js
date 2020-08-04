@@ -64,7 +64,7 @@ var Keys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 
 
 $(document).ready(_ => {
 
-
+	
 	alertify.defaults = {
 		// dialogs defaults
 		autoReset:true,
@@ -457,6 +457,8 @@ $(document).ready(_ => {
 			});
 			$("#especialidad").empty().html(html);
 			$("#especialidada").empty().html(html);
+			//$('#especialidad').selectpicker();
+			//$('#especialidada').selectpicker();
 			$(".spinner-grow-sm").addClass("d-none");
 		}
 
@@ -2257,27 +2259,44 @@ $(document).ready(_ => {
 		console.log($())
 	});
 
+	
+	
+	const reset = function () {
+		$("toggleCSS").href = "../themes/alertify.default.css";
+		alertify.set({
+			labels : {
+				ok     : "OK",
+				cancel : "Cancel"
+			},
+			delay : 5000,
+			buttonReverse : false,
+			buttonFocus   : "ok"
+		});
+	};
+	
+
 	$("#btnconfirma2").click(e => {
 
+		console.clear();	
 		e.preventDefault();
-		
-		alertify.confirm("Are you sure?", function (e) {
-			if (e) {
-			  alertify.success("Yes");
-			} else {
-			  alertify.success("No");
-			}
-		  });
-		return;
-		let alertIfy=alertify.prompt("Que dijo la persona que confirma.", "...",
-			function (evt, value) {
-				console.log(evt);
-				alertify.success('Ok: ' + value);
-			},
-			function () {
-				alertify.error('Cancel');
-			});
-			console.log(alertIfy);
+		$("#loginForm").toggleClass("d-none");
+		reset();
+			alertify.prompt("This is a prompt dialog", function (e, str) {
+				if (e) {
+					alertify.success("You've clicked OK and typed: " + str);
+				} else {
+					alertify.error("You've clicked Cancel");
+				}
+			}, "Default Value");
+			return false;
+	
+			
 	});
+
+	
+	
+	const textAlertify = _=>{
+
+	}	  
 
 });
