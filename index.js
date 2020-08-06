@@ -121,6 +121,27 @@ app.post('/urls', async (req, res) => {
 });
 
 
+app.post('/confirmarP', async (req, res) => {
+
+  let params = param(req.body);
+  console.log("Parametros de confirmar:", setParams2(req));
+  try {
+    let response = await fetch(`${URL}confirmar.php?`, {
+      method: "POST",
+      body: setParams2(req),
+      headers: { "Content-Type": "application/json" }
+    });
+    let datos = await response.json();
+    console.log(datos);
+    res.send(datos);
+  } catch (error) {
+    console.error(error);
+    res.send(error);
+  }
+
+});
+
+
 
 app.post('/citas', async (req, res) => {
 

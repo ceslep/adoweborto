@@ -5,7 +5,7 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=yes">
   <meta name="description" content="Clinica Moya Ortodoncia" />
   <meta name="author" content="ceslep@gmail.com" />
 
@@ -385,6 +385,19 @@
     height: 300px;
     overflow-y: auto;
 }
+
+
+@media all and (min-width: 600px) {
+    .navbar-nav {
+        margin: 7.5px 0px;
+    }   
+    .navbar .nav > li {
+        display: block;
+    }
+    .navbar .nav > li  img {
+        margin: auto;
+    }
+}
   </style>
 </head>
 
@@ -423,7 +436,7 @@
 
           <div class="form-group">
             <label for="database">Base de Datos</label>
-            <select name="database" id="database" class="text-dark database" required>
+            <select name="database" id="database" class="text-dark form-control database" required>
               <option value=""></option>
             </select>
           </div>
@@ -441,9 +454,9 @@
         </div>
         <div class="card-footer bg-light">
 
-          <div class="mx-auto" style="width: 85px;">
+          <div class="mx-auto" >
 
-            <button type="submit" class="btn btn-success btn-block w-100" id="btnLogin" value="iniciar"><i
+            <button type="submit" class="btn btn-success btn-block" id="btnLogin" value="iniciar"><i
                 class="fas fa-cloud">&nbsp;</i>Iniciar Sesión</button>
           </div>
           <div class="d-flex align-items-center" id="ldnInicial">
@@ -461,7 +474,7 @@
   </div>
 
 
-  <nav class="navbar navbar-dark nav-background-blue sticky-top d-none" id="inicio">
+  <nav class="navbar navbar-dark nav-background-blue sticky-top d-none navbar-expand-lg navbar-expand-md" id="inicio">
     <a class="navbar-brand" href="#" id="filtrar">
       <img src="imagenes/moya2.png" alt="" width="20px" class="rounded-circle">
       Moya Ortodoncia</a>

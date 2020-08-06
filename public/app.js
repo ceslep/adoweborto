@@ -64,95 +64,22 @@ var Keys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 
 
 $(document).ready(_ => {
 
-/*	
-	alertify.defaults = {
-		// dialogs defaults
-		autoReset:true,
-		basic:false,
-		closable:true,
-		closableByDimmer:true,
-		invokeOnCloseOff:false,
-		frameless:false,
-		defaultFocusOff:false,
-		maintainFocus:true, // <== global default not per instance, applies to all dialogs
-		maximizable:true,
-		modal:true,
-		movable:true,
-		moveBounded:false,
-		overflow:true,
-		padding: true,
-		pinnable:true,
-		pinned:true,
-		preventBodyShift:false, // <== global default not per instance, applies to all dialogs
-		resizable:true,
-		startMaximized:false,
-		transition:'pulse',
-		transitionOff:false,
-		tabbable:'button:not(:disabled):not(.ajs-reset),[href]:not(:disabled):not(.ajs-reset),input:not(:disabled):not(.ajs-reset),select:not(:disabled):not(.ajs-reset),textarea:not(:disabled):not(.ajs-reset),[tabindex]:not([tabindex^="-"]):not(:disabled):not(.ajs-reset)',  // <== global default not per instance, applies to all dialogs
-	
-		// notifier defaults
-		notifier:{
-		// auto-dismiss wait time (in seconds)  
-			delay:5,
-		// default position
-			position:'bottom-right',
-		// adds a close button to notifier messages
-			closeButton: false,
-		// provides the ability to rename notifier classes
-			classes : {
-				base: 'alertify-notifier',
-				prefix:'ajs-',
-				message: 'ajs-message',
-				top: 'ajs-top',
-				right: 'ajs-right',
-				bottom: 'ajs-bottom',
-				left: 'ajs-left',
-				center: 'ajs-center',
-				visible: 'ajs-visible',
-				hidden: 'ajs-hidden',
-				close: 'ajs-close'
-			}
-		},
-	
-		// language resources 
-		glossary:{
-			// dialogs default title
-			title:'AdoWeb',
-			// ok button text
-			ok: 'Aceptar',
-			// cancel button text
-			cancel: 'Cancelar'            
-		},
-	
-		// theme settings
-		theme:{
-			// class name attached to prompt dialog input textbox.
-			input:'ajs-input',
-			// class name attached to ok button
-			ok:'ajs-ok',
-			// class name attached to cancel button 
-			cancel:'ajs-cancel'
-		},
-		// global hooks
-		hooks:{
-			// invoked before initializing any dialog
-			preinit:function(instance){},
-			// invoked after initializing any dialog
-			postinit:function(instance){},
-		},
-	};*/
-	
 
 
 	var data = Bind({
 		database: "ado",
 		paciente: "",
 		especialidad: "",
-
+		citasnd: "",
+		agenda: "",
+		usuario: ""
 	}, {
 		database: ".database",
 		paciente: ".paciente",
 		especialidad: ".especialidad",
+		citasind: ".citasind",
+		agenda: ".agenda",
+		usuario: ".usuario"
 
 	});
 
@@ -399,6 +326,7 @@ $(document).ready(_ => {
 
 
 			dadapor = login[0].nombres;
+			data.usuario = dadapor;
 			if (dlog) {
 				sessionStorage.setItem('user', $("#usuario").val());
 				sessionStorage.setItem('nombreUser', dadapor);
@@ -944,7 +872,9 @@ $(document).ready(_ => {
 			$("#identificacion").val(fila.data("identificacion"));
 			$("#eprocedimiento").val(fila.data("procedimiento"));
 			queagenda = fila.data("queagenda") == "C" ? "citas" : "cppre";
+			data.agenda = queagenda;
 			$("#cara").val(fila.data("cara"));
+			data.citasind = fila.data("citasind");
 			$("#citasind").val(fila.data("citasind"));
 			$("#fechaEvolucion").val($("#fechaAgenda").val());
 			$("#hora").val(new Date().toLocaleTimeString('es-ES'));
@@ -1283,7 +1213,7 @@ $(document).ready(_ => {
 			chunks.push(value);
 			receivedLength += value.length;
 			let porcinicio = parseInt(receivedLength / contentLength * 100);
-			$(".porcinicio").css("width",`${porcinicio}%`)
+			$(".porcinicio").css("width", `${porcinicio}%`)
 			$(".plod").text(`Recibiendo Datos ${porcinicio}% de ${Math.round(contentLength / (1000))} kB`);
 			$(".loadini").text($(".plod").text());
 			console.log(`Received ${parseInt(receivedLength / contentLength * 100)}% of ${contentLength}`);
@@ -2259,8 +2189,8 @@ $(document).ready(_ => {
 		console.log($())
 	});
 
-	
-	
+
+
 
 	$("#btnconfirma2").click(async e => {
 
@@ -2269,38 +2199,88 @@ $(document).ready(_ => {
 		$("#modaldataPac").modal("hide");
 		const { value: text } = await Swal.fire({
 			input: 'textarea',
+			html: `	
+					<label for="fQuien">Quién Confirma</label>
+					<select class="form-control" id="fQuien">
+						<option value></option>
+						<option value="EL MISMO">EL MISMO</option>
+						<option value="LA MAMA">LA MAMA</option>
+						<option value="EL PAPA">EL PAPA</option>
+						<option value="LA ESPOSA">LA ESPOSA</option>
+						<option value="EL ESPOSO">EL ESPOSO</option>
+						<option value="LA SUEGRA">LA SUEGRA</option>
+						<option value="EL SUEGRO">EL SUEGRO</option>
+						<option value="EL HERMANO">EL HERMANO</option>
+						<option value="LA HERMANA">LA HERMANA</option>
+						<option value="EL TIO">EL TIO</option>
+						<option value="LA TIA">LA TIA</option>
+						<option value="LA ABUELA">LA ABUELA</option>
+						<option value="EL ABUELO">EL ABUELO</option>
+						<option value="LA HIJA">LA HIJA</option>
+						<option value="EL HIJO">EL HIJO</option>
+						<option value="UN AMIGO">UN AMIGO</option>
+						<option value="UNA AMIGA">UNA AMIGA</option>
+						<option value="SERVIDUMBRE">SERVIDUMBRE</option>
+						<option value="EL SOBRINO">EL SOBRINO</option>
+						<option value="LA SOBRINA">LA SOBRINA</option>
+						<option value="EL PRIMO">EL PRIMO</option>
+						<option value="LA PRIMA">LA PRIMA</option>
+						<option value="LA CONTESTADORA">LA CONTESTADORA</option>
+						<option value="SECRETARIA">SECRETARIA</option>
+						<option value="EL NOVIO">EL NOVIO</option>
+						<option value="LA NOVIA">LA NOVIA</option>
+						<option value="DATOS NO ACTUALIZADOS">DATOS NO ACTUALIZADOS</option>
+						<option value="YA NO VIVE ALLI">YA NO VIVE ALLI</option>
+						<option value="OTROS">OTROS</option>
+					</select>
+			`,
 			inputPlaceholder: 'Que dijeron',
 			inputAttributes: {
-			  'aria-label': 'Escriba el mensaje de la confirmación'
+				'aria-label': 'Escriba el mensaje de la confirmación'
 			},
 			showCancelButton: true
-		  });
+		});
 
-		  const Toast = Swal.mixin({
+		const Toast = Swal.mixin({
 			toast: true,
 			position: 'top-end',
 			showConfirmButton: false,
 			timer: 3000,
 			timerProgressBar: true,
 			onOpen: (toast) => {
-			  toast.addEventListener('mouseenter', Swal.stopTimer)
-			  toast.addEventListener('mouseleave', Swal.resumeTimer)
+				toast.addEventListener('mouseenter', Swal.stopTimer)
+				toast.addEventListener('mouseleave', Swal.resumeTimer)
 			}
-		  })
-		  
-		  if (text) {
-			Toast.fire({
-				icon: 'success',
-				title: 'Confirmado Satisfactoriamente'
-			  })
-		  }
+		})
+
+		if (text) {
+			let quien = $("#fQuien option:selected").val();
+			let confirmacion = await confirmar(quien, text);
+			if (confirmacion.Mensaje == "Actualizado")
+				Toast.fire({
+					icon: 'success',
+					title: 'Confirmado Satisfactoriamente'
+				})
+			else
+				Toast.fire({
+					icon: 'Error',
+					title: confirmacion.Error,
+				})
+		}
 
 	});
 
+	const confirmar = async (quien, text) => {
 
-	
-	const textAlertify = _=>{
+		let response = await fetch(url + "confirmarP", {
+			method: "POST",
+			body: JSON.stringify({ ind: data.citasind, usuario: data.usuario, agenda: data.agenda, database: data.database, quien: quien, info: text }),
+			mode: "cors",
+			headers: { "Content-Type": "application/json" }
+		});
+		let confirmado = response.json();
+		return confirmado;
 
-	}	  
+	}
 
 });
