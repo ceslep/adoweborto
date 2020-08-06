@@ -72,14 +72,13 @@ $(document).ready(_ => {
 		especialidad: "",
 		citasnd: "",
 		agenda: "",
-		usuario: ""
+		usuario: "",
 	}, {
 		database: ".database",
 		paciente: ".paciente",
 		especialidad: ".especialidad",
 		citasind: ".citasind",
-		agenda: ".agenda",
-		usuario: ".usuario"
+		
 
 	});
 
@@ -202,6 +201,28 @@ $(document).ready(_ => {
 			let datas = { fecha: $("#fechaAgenda").val(), "database": data.database, "tipo": data.especialidad };
 
 			const response = await fetch(url + "citas", {
+
+				method: "POST",
+				body: JSON.stringify(datas),
+				headers: { 'Content-Type': 'application/json' }
+
+			});
+			const datos = await response.json();
+			return (datos);
+		} catch (error) {
+			console.error(error);
+			$("#errorcargaModal").modal("show");
+		}
+	}
+
+
+	const getCitas2 = async () => {
+
+		try {
+			console.log(data.database);
+			let datas = { fecha: $("#fechaAgenda").val(), "database": data.database, "tipo": data.especialidad };
+
+			const response = await fetch(url + "citas2", {
 
 				method: "POST",
 				body: JSON.stringify(datas),
@@ -1051,6 +1072,20 @@ $(document).ready(_ => {
 
 	});
 
+
+
+	const dnone = _ => {
+
+		$("#agenda").addClass("d-none");
+		$(".loadingCuadre").addClass("d-none");
+		$("#frmnav").addClass("d-none");
+		$("#btnir").addClass("d-none");
+		$("#tableData").addClass("d-none");
+		$("#parametrosCuadre").addClass("d-none");
+		$(".navbar-toggler").click();
+		$("#cuadreTabla").addClass("d-none");
+		$(".cards").addClass("d-none");
+	}
 
 	$("#getCitas").click(async _ => {
 
@@ -2282,5 +2317,85 @@ $(document).ready(_ => {
 		return confirmado;
 
 	}
+
+	$("#dataCancela").click(async e => {
+		e.preventDefault();
+		let result = await Swal.fire({
+			title: 'Está Seguro?',
+			text: "Se cancelará esta cita!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			cancelButtonText: "No",
+			confirmButtonText: 'Si, de acuerdo!'
+		});
+
+		if (result.value) {
+			let datac = { ind: data.citasind, agenda: data.agenda, database: data.database }
+			console.log(datac);
+			let response = await fetch(url + "cancelarP", {
+				method: "POST",
+				body: JSON.stringify(datac),
+				headers: { "Content-Type": "application/json" },
+			});
+			let resultado = await response.json();
+			if (resultado.Mensaje == "Ok")
+				result = await Swal.fire(
+					'Cancelada!',
+					'la cita ha sido cancelada.',
+					'success'
+				);
+			if (result.value) {
+				$("#confirma2").modal("hide");
+				await agendaCitas(false);
+				$("#filtrar").click();
+			}
+		}
+
+	});
+
+
+
+	const getTarjetas = async tCitas => {
+
+		$("#spinner").show();
+		let dataCitas = await getCitas2();
+		console.log(dataCitas);
+		$("#spinner").hide();
+		let html = "<div class='card-columns'>";
+		dataCitas.forEach(dataCita => {
+			html += `
+			<div class="card" style='max-width: 180rem;max-height:380rem;'>
+			<div class="card-header border-primary text-white" style="background:linear-gradient(lightgreen,green);">${dataCita.fecha}-${dataCita.horas}</div>
+			<img class="card-img-top" src="${dataCita.foto}" alt="Card image cap">
+			<div class="card-body">
+			  <h5 class="card-title">${dataCita.nombres}</h5>
+			  <p class="card-text">${dataCita.procedimiento}</p>
+			  <p class="card-text"><small class="text-muted">${dataCita.paciente}</small></p>
+			  <div class="btn btn-outline-primary float-left w-25">Datos</div>
+			  <div class="btn btn-outline-primary float-right w-50">Linea de Tiempo</div>
+			</div>
+		  </div>
+			`
+		});
+		html+="</div>";
+		return html;
+
+	}
+
+
+	$("#tarjetas").click(async e => {
+		e.preventDefault();
+		$(".navbar-toggler").click();
+		console.clear();
+		dnone();
+		$(".cards").removeClass("d-none");
+		let dataTarjetas = await getTarjetas();
+		
+		$(".cards").empty().html(dataTarjetas);
+		
+		
+	});
 
 });

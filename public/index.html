@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="chosen/prism.css">
   <link rel="stylesheet" href="css/chosen.css">
   <script src="js/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-  <script src="js/popper.min.js"></script>
+  <script src="./js/popper.min.js"></script>
   <!--<script src="js/bootstrap.bundle.min.js"></script>-->
   <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
   <script src="js/popper.min.js"></script>
@@ -485,6 +485,8 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link" href="#" id="getCitas">Citas</a>
+        <a class="nav-item nav-link" href="#" id="tarjetas">Tarjetas</a>
+        <hr>
         <a class="nav-item nav-link" href="#" id="cuadre">Cuadre</a>
         <hr>
         <a class="nav-item nav-link" href="#" id="maps">Maps</a>
@@ -591,26 +593,35 @@
                 <div class="col sm-12">
 
                   <div class="row">
-                    <div class="col-2">
+                    <div class="col-1">
                       <span class="align-middle">
                         <i class="fa fa-bullhorn" aria-hidden="true" style="color:lightgreen;"></i>
                       </span>
                     </div>
-                    <div class="col-2">
-                      <a id="telefono" target="_blank" href="#" class="btn" style="width:40px;"><i
-                          class="fas fa-mobile-alt fa-lg fa-align-center" style="color:aquamarine;"></i></a>
+                    <div class="col">
+                      <a id="telefono" target="_blank" href="#" class="">
+                        <i class="fas fa-mobile-alt" style="color:aquamarine;"></i>
+                      </a>
                     </div>
-                    <div class="col-2">
-                      <a id="whatsapp" target="_blank" href="#" class="btn" style="width:40px;"><i
-                          class="fab fa-whatsapp fa-lg fa-align-center" style="color:lightgreen;"></i></a>
+                    <div class="col">
+                      <a id="whatsapp" target="_blank" href="#" class=""><i
+                          class="fab fa-whatsapp fa-lg" style="color:lightgreen;"></i></a>
                     </div>
-                    <div class="col-2">
-                      <a id="sms" target="_blank" href="#" class="btn" style="width:40px;"><i
-                          class="fas fa-sms fa-lg fa-align-center" style="color:gold;"></i></a>
+                    <div class="col">
+                      <a id="sms" target="_blank" href="#" class=""><i
+                          class="fas fa-sms fa-lg"></i></a>
                     </div>
-                    <div class="col-2">
-                      <a id="dataPac" href="#!" class="btn" style="width:40px;"><i
-                          class="fa fa-user-circle fa-lg fa-align-center" style="color:burlywood;"></i></a>
+                    <div class="col">
+                      <a id="dataPac" href="#!" class=""><i
+                          class="fa fa-user-circle fa-lg" style="color:burlywood;"></i></a>
+                    </div>
+                    <div class="col">
+                      <a id="dataCancela" href="#!" class=""><i
+                          class="fa fa-user-times fa-lg" style="color:seashell;"></i></a>
+                    </div>
+                    <div class="col">
+                      <a id="dataCambia" href="#!" class=""><i
+                          class="fa fa-user-clock fa-lg" style="color:thistle;"></i></a>
                     </div>
                   </div>
                 </div>
@@ -1761,7 +1772,10 @@
     </form>
   </div>
 
- 
+ <div class="container cards d-none">
+  
+ </div>
+
 
 </body>
 

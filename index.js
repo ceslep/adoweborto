@@ -142,6 +142,27 @@ app.post('/confirmarP', async (req, res) => {
 });
 
 
+app.post('/cancelarP', async (req, res) => {
+
+  console.log(req.body);
+  console.log("Parametros de cancelar:", setParams2(req));
+  try {
+    let response = await fetch(`${URL}cancelar.php?`, {
+      method: "POST",
+      body: setParams2(req),
+      headers: { "Content-Type": "application/json" }
+    });
+    let datos = await response.json();
+    console.log(datos);
+    res.send(datos);
+  } catch (error) {
+    console.error(error);
+    res.send(error);
+  }
+
+});
+
+
 
 app.post('/citas', async (req, res) => {
 
@@ -152,6 +173,18 @@ app.post('/citas', async (req, res) => {
   let params = param(req.body);
   console.log(params);
   res.send(await getData("getCitas_", setParams(req)));
+
+});
+
+app.post('/citas2', async (req, res) => {
+
+
+  console.log("Remote Ip:" + req.connection.remoteAddress);
+  console.log(`Request:`);
+  console.log(req.body);
+  let params = param(req.body);
+  console.log(params);
+  res.send(await getData("getCitas2_", setParams(req)));
 
 });
 
