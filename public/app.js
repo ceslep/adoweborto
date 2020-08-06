@@ -2259,7 +2259,7 @@ $(document).ready(_ => {
 			if (confirmacion.Mensaje == "Actualizado")
 				Toast.fire({
 					icon: 'success',
-					title: 'Confirmado Satisfactoriamente'
+					title: 'Confirmado Satisfactoriamente..'
 				})
 			else
 				Toast.fire({
