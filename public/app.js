@@ -78,7 +78,7 @@ $(document).ready(_ => {
 		paciente: ".paciente",
 		especialidad: ".especialidad",
 		citasind: ".citasind",
-		
+
 
 	});
 
@@ -360,8 +360,8 @@ $(document).ready(_ => {
 			$("#inicio").removeClass("height");
 			$("#containerLogin").hide();
 			$("#inicio").removeClass("d-none");
-			$("#tableData").removeClass("d-none");
-			$("#agenda").removeClass("d-none");
+			$("#d_tableData").removeClass("d-none");
+			$("#d_agenda").removeClass("d-none");
 			$("#inicio").show();
 			$("#tableData").show();
 			$(window).resize();
@@ -868,7 +868,7 @@ $(document).ready(_ => {
 
 	})
 
-	$(document).on("click", "tr", async (e) => {
+	$(document).on("click", "#d_tableData tr", async (e) => {
 
 
 
@@ -944,10 +944,19 @@ $(document).ready(_ => {
 			});
 			try {
 				let fotos = await response.json();
-				$("#fotop1").attr("src", fotos[0].foto);
+				if ((fotos[0].foto != null) && (fotos[0].foto != ""))
+					$("#fotop1").attr("src", fotos[0].foto);
+				else {
+					if (fotos[0].sexo == "FEMENINO")
+						$("#fotop1").attr("src", "/imagenes/female.png");
+					else $("#fotop1").attr("src", "/imagenes/male.png");
+				}
+
 			} catch (error) {
+
 				console.warn(error);
-				return;
+
+				//return;
 			}
 			$("#confirma2").modal("show");
 			$(spin).addClass("d-none")
@@ -1076,7 +1085,7 @@ $(document).ready(_ => {
 
 	const dnone = _ => {
 
-		$("#agenda").addClass("d-none");
+		/*$("#agenda").addClass("d-none");
 		$(".loadingCuadre").addClass("d-none");
 		$("#frmnav").addClass("d-none");
 		$("#btnir").addClass("d-none");
@@ -1084,21 +1093,22 @@ $(document).ready(_ => {
 		$("#parametrosCuadre").addClass("d-none");
 		$(".navbar-toggler").click();
 		$("#cuadreTabla").addClass("d-none");
-		$(".cards").addClass("d-none");
+		$(".cards").addClass("d-none");*/
+		$("[id^=d_]").each((i,k)=>{
+			console.log(k);
+			$(k).addClass("d-none");
+		});
 	}
 
 	$("#getCitas").click(async _ => {
 
-		$("#agenda").removeClass("d-none");
-		$(".loadingCuadre").addClass("d-none");
-		$("#frmnav").removeClass("d-none");
-		$("#btnir").removeClass("d-none");
-		$("#tableData").removeClass("d-none");
-		$("#parametrosCuadre").addClass("d-none");
+		dnone();
 		$(".navbar-toggler").click();
-		$("#cuadreTabla").addClass("d-none");
+		$("#d_agenda").removeClass("d-none");
+		$("#d_tableData").removeClass("d-none");
 	});
 
+	
 
 
 	const elcuadre = async _ => {
@@ -1131,10 +1141,10 @@ $(document).ready(_ => {
 			pagos.forEach(pago => {
 				html += `
 							<tr>
-								<td class='align-middle small'>${pago.recibo}</td>
-								<td class='align-middle small'>${pago.paciente}</td>
-								<td class='align-middle small'>${pago.Nombres}</td>
-								<td class='align-middle small'>${pago.Descr}</td>
+								<td class='align-middle small text-light'>${pago.recibo}</td>
+								<td class='align-middle small text-light'>${pago.paciente}</td>
+								<td class='align-middle small text-light'>${pago.Nombres}</td>
+								<td class='align-middle small text-light'>${pago.Descr}</td>
 								<td class='text-right text-dark align-middle small' style='background:DarkSeaGreen;'>${parseFloat(pago.Valor).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }).slice(0, -3)}</td>
 							</tr>
 					`;
@@ -1155,21 +1165,93 @@ $(document).ready(_ => {
 	}
 
 
-	$("#btnCuadreFechas").click(e => {
+	$("#btnCuadreFechas").click(async e => {
 		e.preventDefault();
-		elcuadre();
+		let f1=$("#fecha1").val();
+		let f2=$("#fecha2").val();
+		$(".loadingCuadre").removeClass("d-none");
+		await resumenCuadre(f1,f2);
+		await elcuadre();
+		$(".loadingCuadre").addClass("d-none");
 	});
 
+
+
+	const resumenCuadre = async (f1,f2)=>{
+		let response=await fetch("/resumenCuadre",{
+			method:"POST",
+			body:JSON.stringify({database:data.database,fecha1:f1,fecha2:f2}),
+			headers:{"Content-Type":"application/json"},
+			mode:"cors",
+
+		});
+		let resumen = await response.json();
+		console.table(resumen);
+		let html="<table class='table table-striped table-bordered table-hover'>"
+		html+="<thead class='bg-primary text-white'>";
+		html+="<tr>";
+		html+="<th>";
+		html+="General";
+		html+="</th>";
+		html+="<th>";
+		html+="Descripción";
+		html+="</th>";
+		html+="<th>";
+		html+="Total";
+		html+="</th>";
+		html+="</tr>";
+		html+="</thead>";
+		html+="<tbody>";
+		let numeros=[1,2,3,4,5];
+		resumen.forEach(pago=>{
+			if (!numeros.includes(parseInt(pago.itemdDesc)))
+			html+=`
+			
+					<tr>
+						<td class='align-midle text-info'>
+							${pago.itemdDesc}
+						</td>
+						<td class='align-midle'>
+							${pago.descripcion}
+						</td>
+						<td class='text-success ${pago.bg}' style='text-align:right;'>
+							${parseFloat(pago.Total).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }).slice(0, -3)}
+						</td>
+					</tr>
+			`;
+			else
+			html+=`<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>`;
+		});
+		html+="</tbody>";
+		html+="</table>";
+		$("#tresumenCuadre").empty().html(html);
+	
+	}
 	$("#cuadre").click(async _ => {
 
-		$("#cuadreTabla").removeClass("d-none");
+	/*	$("#cuadreTabla").removeClass("d-none");
 		$("#agenda").addClass("d-none");
 		$("#tableData").addClass("d-none");
 		$("#parametrosCuadre").removeClass("d-none");
 		$("#frmnav").addClass("d-none");
-		$("#btnir").addClass("d-none");
+		$("#btnir").addClass("d-none");*/
+		dnone();
 		$(".navbar-toggler").click();
-		elcuadre();
+		$("#loadingCuadre").removeClass("d-none");
+		$("#d_cuadre").removeClass("d-none");
+		$("#cuadreTabla").removeClass("d-none");
+		$("#parametrosCuadre").removeClass("d-none");
+		$(".loadingCuadre").removeClass("d-none");
+		let f1=$("#fecha1").val();
+		let f2=$("#fecha2").val();
+		await resumenCuadre(f1,f2);
+		await elcuadre();
+		$(".loadingCuadre").addClass("d-none");
+		
 
 
 
@@ -2364,22 +2446,36 @@ $(document).ready(_ => {
 		console.log(dataCitas);
 		$("#spinner").hide();
 		let html = "<div class='card-columns'>";
+		let foto = "";
 		dataCitas.forEach(dataCita => {
+			if ((dataCita.foto != null) && (dataCita.foto != "")) 
+				foto = dataCita.foto;
+				else {
+				if (dataCita.sexo == "FEMENINO")
+					foto = "/imagenes/female.png";
+				else foto = "/imagenes/male.png";
+			}
 			html += `
 			<div class="card" style='max-width: 180rem;max-height:380rem;'>
 			<div class="card-header border-primary text-white" style="background:linear-gradient(lightgreen,green);">${dataCita.fecha}-${dataCita.horas}</div>
-			<img class="card-img-top" src="${dataCita.foto}" alt="Card image cap">
+			<img class="card-img-top" src="${foto}" alt="Card image cap">
 			<div class="card-body">
 			  <h5 class="card-title">${dataCita.nombres}</h5>
 			  <p class="card-text">${dataCita.procedimiento}</p>
 			  <p class="card-text"><small class="text-muted">${dataCita.paciente}</small></p>
-			  <div class="btn btn-outline-primary float-left w-25">Datos</div>
-			  <div class="btn btn-outline-primary float-right w-50">Linea de Tiempo</div>
+			  <div class="row">
+					<div class="col-12">
+							<div class="btn btn-outline-primary d-block">Datos</div>
+					</div>
+			  <div class="col-12">
+			  		<div class="btn btn-outline-primary d-block">Linea de Tiempo</div>
+			  </div>
+			  </div>
 			</div>
 		  </div>
 			`
 		});
-		html+="</div>";
+		html += "</div>";
 		return html;
 
 	}
@@ -2390,12 +2486,12 @@ $(document).ready(_ => {
 		$(".navbar-toggler").click();
 		console.clear();
 		dnone();
-		$(".cards").removeClass("d-none");
+		$("#d_tarjetas").removeClass("d-none");
 		let dataTarjetas = await getTarjetas();
-		
-		$(".cards").empty().html(dataTarjetas);
-		
-		
+
+		$("#d_tarjetas").empty().html(dataTarjetas);
+
+
 	});
 
 });

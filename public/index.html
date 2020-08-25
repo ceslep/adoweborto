@@ -473,7 +473,7 @@
   </div>
 
 
-  <nav class="navbar navbar-dark nav-background-blue sticky-top d-none navbar-expand-lg navbar-expand-md" id="inicio">
+  <nav class="navbar navbar-dark nav-background-blue sticky-top d-none navbar-expand-lg navbar-expand-md px-0 w-100" id="inicio">
     <a class="navbar-brand" href="#" id="filtrar">
       <img src="imagenes/moya2.png" alt="" width="20px" class="rounded-circle">
       Moya Ortodoncia</a>
@@ -519,7 +519,7 @@
     </div>
   </div>
 
-  <div class="container d-none" id="agenda">
+  <div class="container-fluid mx-0 d-none" id="d_agenda">
     <div class="flex-container">
       <div class="flex-item mx-auto">
         <input type="date" id="fechaAgenda" class="form-control form-control-xl">
@@ -528,17 +528,17 @@
 
 
       </div>
-      <div class="flex-item">
+      <div class="flex-item mx-auto">
 
         <select name="especialidad" data-placeholder="Especialidad" class="select p-2 especialidad" id="especialidada">
 
         </select>
       </div>
     </div>
-  </div>
+  </div>  
 
 
-  <table class="table table-bordered d-none" id="tableData">
+  <table class="table table-bordered d-none w-100" id="d_tableData">
     <thead class="thead-dark">
       <tr>
         <td>
@@ -561,7 +561,7 @@
 
 
 
-  </div>
+
 
 
 
@@ -1110,17 +1110,17 @@
   </div>
   <!-- Modal -->
 
-  <div class="container">
+  <div class="container d-none" id="d_cuadre">
     <div class="d-none sticky-top" id="parametrosCuadre">
       <form id="frmFechas" class="mx-auto form-inline text-center">
         <div class="row">
           <div class="col-4">
             <label for="fecha1" class="text-white">Fecha Inicial</label>
-            <input type="text" readonly name="fecha1" id="fecha1" class="form-control form-control-sm">
+            <input type="date" name="fecha1" id="fecha1" class="form-control form-control-sm text-light">
           </div>
           <div class="col-4">
             <label for="fecha2" class="text-white">Fecha Final</label>
-            <input type="text" readonly name="fecha2" id="fecha2" class="form-control form-control-sm">
+            <input type="date"  name="fecha2" id="fecha2" class="form-control form-control-sm text-light">
           </div>
 
           <div class="col-4">
@@ -1129,11 +1129,32 @@
           </div>
         </div>
       </form>
-      <div class="spinner-border text-success d-none loadingCuadre" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
+      
     </div>
-
+    
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-outline-primary d-block w-100" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Resumen Cuadre
+              
+            </button>
+            <div class="spinner-border text-success d-none loadingCuadre" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </h5>
+        </div>
+    
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body" id="tresumenCuadre">
+            <div class="spinner-border text-success d-none loadingCuadre" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
     <div class="d-none" id="cuadreTabla">
 
     </div>
@@ -1772,7 +1793,7 @@
     </form>
   </div>
 
- <div class="container cards d-none">
+ <div class="container d-none" id="d_tarjetas">
   
  </div>
 

@@ -325,6 +325,24 @@ app.post("/datosFinancieros", async (req, res) => {
   }
 });
 
+app.post("/resumenCuadre", async (req, res) => {
+
+
+  console.log(setParams2(req));
+  try {
+    let response = await fetch(`${URL}resumenCuadre.php`, {
+      method: "POST",
+      body: setParams2(req),
+      headers: { "Content-Type": "application/json" }
+    });
+    let resumen = await response.json();
+
+    res.send(resumen);
+  } catch (error) {
+     console.error(error);
+  }
+});
+
 
 
 app.post("/guardaEvolucion", async (req, res) => {
