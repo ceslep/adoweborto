@@ -1187,7 +1187,8 @@ $(document).ready(_ => {
 		});
 		let resumen = await response.json();
 		console.table(resumen);
-		let html="<table class='table table-striped table-bordered table-hover'>"
+		let html="<div class='table-responsive'>";
+		html+="<table class='table table-striped table-bordered table-hover'>"
 		html+="<thead class='bg-primary text-white'>";
 		html+="<tr>";
 		html+="<th>";
@@ -1228,6 +1229,7 @@ $(document).ready(_ => {
 		});
 		html+="</tbody>";
 		html+="</table>";
+		html+="</div>";
 		$("#tresumenCuadre").empty().html(html);
 	
 	}

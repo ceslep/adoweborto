@@ -51,8 +51,8 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 
 
-//const URL = "http://127.0.0.1/adoweb/php/";
-const URL = "http://192.168.0.9/adoweb/php/";
+const URL = "http://127.0.0.1/adoweb/php/";
+//const URL = "http://192.168.0.9/adoweb/php/";
 //const URL = "https://adoweb.ngrok.io/adoweb/php/";
 const getData = async (file, params) => {
 
