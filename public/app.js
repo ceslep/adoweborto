@@ -918,7 +918,7 @@ $(document).ready(_ => {
 			try {
 				$("#ct").text(parseFloat(datosFinancieros[0].saldo).toLocaleString('es-CO', { style: 'currency', currency: 'COP' }).slice(0, -3));
 			} catch (error) {
-				console.clear();
+				//console.clear();
 				console.warn(error);
 			}
 
@@ -969,7 +969,8 @@ $(document).ready(_ => {
 			horas = fila.children().filter((i, el) => {
 				return i == 0;
 			});
-
+			$("#bpaci").text("BUSCAR PACIENTE");
+			$("#pacienteCita").val("");
 			$("#asignaCitaModalLabel").html("Asignar Cita");
 			$("#asignaCitaModalLabel").html($("#asignaCitaModalLabel").text() + ` <i class="far fa-arrow-alt-circle-right" style="color:orange;"></i> ${$("#fechaCita").val()}` + " : <span style='color:aqua;'>" + horas.text().trim() + "</span>");
 			createCitasModal(pacientes);
@@ -1605,20 +1606,21 @@ $(document).ready(_ => {
 
 		e.preventDefault();
 		$("#horasCita").val(horas.text().trim());
-		let str = $("#pacientes").val();
+		let str = $("#pacienteCita").val();
 		let prs = $("#procedimientos").val();
 		if ((str == "") || (prs == "")) {
 			$("#errorPaciente").modal({ backdrop: 'static', keyboard: false }).modal("show");
 		}
 		else {
-			let est = $("#pacientes option:selected").data('est');
-
+			console.log($("#pacientes option:selected"));
+			let est = $("#pacienteCita").data('est');
+			console.log(est);
 
 			if (est == "PACIENTE") $("#ctable").val("citas");
 			else $("#ctable").val("cppre");
 
 			let index1 = str.indexOf(":");
-			$("#pacienteCita").val(str.trim().substring(0, index1));
+		//	$("#pacienteCita").val(str.trim().substring(0, index1));
 			let index2 = reverse(str).indexOf(":");
 			$("#identificacionCita").val(str.trim().substring(str.length - index2, str.length));
 			str = $("#procedimientos").val();
@@ -1643,8 +1645,10 @@ $(document).ready(_ => {
 			let time = new Date();
 			$("#hora_pide_cita").val(`${time.getHours() < 10 ? "0" + time.getHours() : time.getHours()}:${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}:${time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds()}`);
 			$("#dadapor").val(dadapor);
-			$("#frmTipo").val(data.especialidad);
+			
 			let data = $(e.currentTarget).serializeObject();
+			console.log(data);
+			$("#frmTipo").val(data.tipo);
 			var jsontext = "{";
 			await $.each(data, (i, k) => {
 
@@ -2055,7 +2059,7 @@ $(document).ready(_ => {
 				<tr>
 					<a href="#!">
 					<td class="align-middle mx-auto">
-						<a href="#!" class="btn btn-outline-primary btn-sm bpac text-success w-100">${paciente.historia}</a>
+						<a href="#!" class="btn btn-outline-primary btn-sm bpac text-success w-100" data-hist="${paciente.historia}:${paciente.nombres}:${paciente.identificacion}" data-nombres="${paciente.nombres}" data-est="${paciente.estado_paciente}">${paciente.historia}</a>
 					</td>
 					<td class="align-middle">
 						${paciente.identificacion}
@@ -2305,7 +2309,17 @@ $(document).ready(_ => {
 
 	$(document).on("click", ".bpac", e => {
 		e.preventDefault();
-		console.log($())
+		let f=$(e.currentTarget);
+		let valor=$(e.currentTarget).data('hist');
+		console.log(valor);
+		console.log($(e.currentTarget).data('hist'));
+		
+		$("#pacienteCita").val(f.data('hist'));
+		$("#pacienteCita").data("est",f.data('est'));
+		
+		$("#bpaci").text(f.data('nombres'));
+		$("#modalFindPac").modal("hide");
+
 	});
 
 

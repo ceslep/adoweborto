@@ -8,7 +8,7 @@
   <meta name="description" content="Clinica Ortocentro Dosquebradas" />
   <meta name="author" content="ceslep@gmail.com" />
 
-  <title>Ortocentro Dosquebradas</title>
+  <title>Ado Dosquebradas</title>
 
   <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
@@ -195,14 +195,23 @@
 
       background: #373b44;
       /* fallback for old browsers */
-      background: -webkit-linear-gradient(to right, #373b44, #4286f4);
+      background: -webkit-linear-gradient(to right, #eaf1ff, #6da0f1);
       /* Chrome 10-25, Safari 5.1-6 */
-      background: linear-gradient(to right, #373b44, #4286f4);
+      background: linear-gradient(to right, #e9efff, #4286f4);
       /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     }
 
+    .nav-background-blue-b {
 
+background: #373b44;
+/* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #373b44, #4286f4);
+/* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #373b44, #4286f4);
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
     .bg-evoluciones {
 
       background: #948E99;
@@ -473,10 +482,10 @@
   </div>
 
 
-  <nav class="navbar navbar-dark nav-background-blue sticky-top d-none navbar-expand-lg navbar-expand-md px-0 w-100" id="inicio">
+  <nav class="navbar navbar-dark nav-background-blue-b sticky-top d-none navbar-expand-lg navbar-expand-md px-0 w-100" id="inicio">
     <a class="navbar-brand" href="#" id="filtrar">
       <img src="imagenes/logoortocentro.png" alt="" width="20px" class="rounded-circle">
-      Ortocentro</a>
+      Ortocentro Dosquebradas</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -740,27 +749,27 @@
                 </div>
                 <div class="form-group">
                   <label for="anotaciones_cita">Evolución</label>
-                  <textarea name="anotaciones_cita" class="form-control text-light" id="anotaciones_cita"
+                  <textarea name="anotaciones_cita" class="form-control text-dark" id="anotaciones_cita"
                     aria-describedby="anotaciones_citaHelp" placeholder="Evolucione aquí..." rows=3></textarea>
                   <small id="anotaciones_citaHelp" class="form-text  text-success">Escriba aquí la Información de la
                     evolución del paciente</small>
                 </div>
                 <div class="form-group">
-                  <label for="evolucion">Adicional</label>
-                  <input type="text" name="adicional_cita" class="form-control text-light" id="evolucion"
+                  <label for="evolucion"><span class="text-info">Adicional</span></label>
+                  <input type="text" name="adicional_cita" class="form-control text-dark" id="evolucion"
                     aria-describedby="adicional_citaHelp" placeholder="">
                   <small id="adicional_citaHelp" class="form-text  text-hightlight">Escriba aquí la Información
                     adicional del paciente</small>
                 </div>
                 <div class="form-group">
-                  <label for="auxiliar">Auxiliar</label>
-                  <select name="auxiliar" class="form-control" style="color:darkslateblue;" id="evauxiliar"
+                  <label for="auxiliar"><span class="text-dark">Auxiliar</span></label>
+                  <select name="auxiliar" class="form-control" style="color:darkviolet;" id="evauxiliar"
                     aria-describedby="evauxiliarHelp" placeholder=""></select>
                   <small id="evauxiliarHelp" class="form-text" style="color:lightsalmon;">Qué auxiliar atendió al
                     paciente</small>
                 </div>
                 <div class="form-group">
-                  <label for="profesional">Profesional</label>
+                  <label for="profesional"><span class="text-dark">Profesional</span></label>
                   <select name="profesional" class="form-control" style="color:darkviolet;" id="profesional"
                     aria-describedby="profesionalHelp" placeholder=""></select>
                   <small id="profesionalHelp" class="form-text" style="color:lightseagreen;">Qué profesional atendió al
@@ -1228,13 +1237,15 @@
               </div>
             </div>
             <div class="form-group">
+              <div class="btn btn-secondary btn-block findPac" id="bpaci">Buscar Paciente</div>
+              <!--
               <label for="pacientes" class="text-dark">Paciente <span class="text-wrap font-weight-bold font-italic"
                   style="color:navy;width:100%;;font-size:10px;" id="labelPacientes"></span></label>
               <select data-placeholder="Seleccione el Paciente" id="pacientes" class="form-control select"
                 style="width:100%;" tabindex="-1" data-placement="right" data-content="Debes seleccionar un paciente"
                 data-toggle="popover">
               </select>
-
+            -->
             </div>
             <div class="text-center">
               <div class="spinner-grow text-primary d-none" role="status" id="spp">
@@ -1552,7 +1563,7 @@
           <div class="modal-header">
               <div class="form-group w-100">
               <label for="criterio">Buscar Pacientes</label>
-              <input type="search" name="criterio" id="criterio" class="form-control w-100" minlength="3" value="" autofocus>
+              <input type="search" name="criterio" id="criterio" class="form-control d-block" minlength="3" value="" autofocus>
               <div class="invalid-feedback">
                 El número de caracteres es muy corto para la busqueda
               </div>

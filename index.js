@@ -373,8 +373,8 @@ app.post('/cabecita', async (req, res) => {
   let response = await fetch(`${URL}cabecita.php`, {
 
     method: "POST",
-    body: setParams(req)
-
+    body: setParams2(req),
+    headers:{"Content-Type":"application/json"}
 
   });
   let data = await response.json()

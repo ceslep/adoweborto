@@ -1,0 +1,4 @@
+POST http://192.168.0.250:3000/cabecita
+Content-Type: application/json
+
+{"database":"ado","fecha":"2021-08-14","hora":"07:00:00","procedimiento":"CN","consultorio":"3","tipo":"ORTODONCIA"}
