@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset='utf-8' />
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js'></script>
+    <script src='jquery.voicerss-tts.min.js'></script>
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    
+	<div class="container">
+	
+		<div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Audio a escuchar</label>
+        </div>
+      </div>
+    </form>
+  </div>
+    <div class="row"> 
+	
+	<div class="col s6">
+		<a  href="#" class="waves-effect waves-light btn-large mt-2" id="escuchar">Escuchar</a>
+	</div>
+	
+	<div class="col s6">
+		<audio src="" controls autoplay>
+			<p>Tu navegador no implementa el elemento audio</p>
+		</audio>
+	</div>	
+      </div>
+	 <div class="row">
+		<div class="progress hide" id="progreso">
+      <div class="indeterminate"></div>
+	</div>
+	</div>	 
+	  
+	</div> 
+	
+</body>
+</html>
+<script>
+
+	
+	
+	 const _buildRequest = e=> {
+        var a = e.c && "auto" != e.c.toLowerCase() ? e.c : this._detectCodec();
+        return "key=" + (e.key || "") + "&src=" + (e.src || "") + "&hl=" + (e.hl || "") + "&r=" + (e.r || "") + "&c=" + (a || "") + "&f=" + (e.f || "") + "&ssml=" + (e.ssml || "") + "&b64=true"
+    }
+	
+	
+	
+	const speak = e=>{
+	
+			 $("#progreso").removeClass("hide");
+			 $.ajax({
+						type: "POST",
+						url: "https://api.voicerss.org/",
+						contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+						data: _buildRequest(e),
+						dataType: "text",
+						success: function(e, a, c) {
+							if (0 == e.indexOf("ERROR"))
+								throw e;
+							
+							$("audio").attr("src",e);
+							
+							$("#progreso").addClass("hide");
+						}
+        })
+        	
+	}
+	
+	
+	
+		$("#escuchar").click(_=>{
+					
+					
+					
+					speak({
+								key: '1c360cdc0a8a492ca0e986e31e56e73c',
+								src: $("textarea").val(), 
+								hl: 'es-mx',
+								r: 0, 
+								c: 'mp3',
+								f: '44khz_16bit_stereo',
+								ssml: false
+							});
+					
+					
+		});
+    </script>
